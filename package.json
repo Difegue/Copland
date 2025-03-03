@@ -1,0 +1,37 @@
+{
+  "name": "Copland",
+  "author": "TVC-16",
+  "version": "1.0.0",
+  "private": true,
+  "keywords": [
+    "pebble-app"
+  ],
+  "dependencies": {
+    "pebble-clay": "^1.0.4"
+  },
+  "pebble": {
+    "sdkVersion": "3",
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "chalk",
+      "diorite"
+    ],
+    "enableMultiJS": false,
+    "capabilities": [],
+    "projectType": "native",
+    "displayName": "Copland",
+    "uuid": "751fca17-11b9-4e74-dead-a2424f8a1337",
+    "watchapp": {
+      "watchface": true,
+      "hiddenApp": false,
+      "onlyShownOnCommunication": false
+    },
+    "resources": {
+      "media": []
+    },
+    "messageKeys": {
+      "dummy": 0
+    }
+  }
+}
