@@ -17,8 +17,10 @@
       "chalk",
       "diorite"
     ],
-    "enableMultiJS": false,
-    "capabilities": [],
+    "enableMultiJS": true,
+    "capabilities": [
+      "configurable"
+    ],
     "projectType": "native",
     "displayName": "Copland",
     "uuid": "751fca17-11b9-4e74-dead-a2424f8a1337",
@@ -30,8 +32,13 @@
     "resources": {
       "media": []
     },
-    "messageKeys": {
-      "dummy": 0
-    }
+    "messageKeys": [
+      "showSeconds",
+      "showDate",
+      "bgColor",
+      "secondsColor",
+      "minutesColor",
+      "hoursColor"
+    ]
   }
 }

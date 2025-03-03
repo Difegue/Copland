@@ -1,0 +1,59 @@
+[
+    {
+        "type": "section",
+        "items": [
+            {
+                "type": "heading",
+                "defaultValue": "Copland"
+            },
+            {
+                "type": "text",
+                "defaultValue": "In 2008, PC World included Copland on a list of the biggest project failures in information technology history."
+            },
+            {
+                "type": "toggle",
+                "messageKey": "showDate",
+                "label": "Show current date",
+                "defaultValue": true
+            },
+            {
+                "type": "toggle",
+                "messageKey": "showSeconds",
+                "label": "Show seconds hand (bad for battery!)",
+                "defaultValue": true
+            },
+            {
+                "type": "color",
+                "messageKey": "bgColor",
+                "defaultValue": "FFFFFF",
+                "label": "Background Color",
+                "sunlight": true
+            },
+            {
+                "type": "color",
+                "messageKey": "hoursColor",
+                "defaultValue": "00AA55",
+                "label": "Hours Color",
+                "sunlight": false
+            },
+            {
+                "type": "color",
+                "messageKey": "minutesColor",
+                "defaultValue": "FF5555",
+                "label": "Minutes Color",
+                "sunlight": false
+            },
+            {
+                "type": "color",
+                "messageKey": "secondsColor",
+                "defaultValue": "FFAA00",
+                "label": "Seconds Color",
+                "sunlight": false
+            }
+        ]
+    },
+    {
+        "type": "submit",
+        "defaultValue": "Save"
+    }
+]
