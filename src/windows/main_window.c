@@ -5,6 +5,9 @@ static Layer *s_canvas, *s_date_layer;
 static TextLayer *s_day_label, *s_num_label;
 static GPath *s_hour_arrow, *s_seconds_arrow;
 
+static GColor clay_bg_color, clay_hours_color, clay_minutes_color, clay_seconds_color;
+static bool show_seconds;
+
 static int s_hours, s_minutes, s_seconds;
 static char s_num_buffer[4], s_day_buffer[10];
 
@@ -40,8 +43,8 @@ static void layer_update_proc(Layer *layer, GContext *ctx) {
   // Hour path
   int hour_angle = get_angle_for_hour_and_minute(s_hours, s_minutes);
   graphics_context_set_stroke_width(ctx, 2);
-  graphics_context_set_fill_color(ctx, HOURS_COLOR);
-  graphics_context_set_stroke_color(ctx, HOURS_COLOR);
+  graphics_context_set_fill_color(ctx, clay_hours_color);
+  graphics_context_set_stroke_color(ctx, clay_hours_color);
   gpath_rotate_to(s_hour_arrow, DEG_TO_TRIGANGLE(hour_angle));
   gpath_draw_filled(ctx, s_hour_arrow);
   gpath_draw_outline(ctx, s_hour_arrow);
@@ -62,20 +65,23 @@ static void layer_update_proc(Layer *layer, GContext *ctx) {
   // Minutes 
   frame = grect_inset(bounds, GEdgeInsets(4 * INSET));
   graphics_context_set_stroke_width(ctx, 10);
-  graphics_context_set_stroke_color(ctx, MINUTES_COLOR);
+  graphics_context_set_stroke_color(ctx, clay_minutes_color);
   int minute_angle = get_angle_for_minute(s_minutes);
   GPoint minute_hand = gpoint_from_polar(frame, GOvalScaleModeFitCircle, DEG_TO_TRIGANGLE(minute_angle));
   graphics_draw_line(ctx, center, minute_hand);
 
   // dot+circle in the middle
   graphics_context_set_stroke_width(ctx, 2);
-  graphics_context_set_fill_color(ctx, SECONDS_COLOR);
-  graphics_context_set_stroke_color(ctx, SECONDS_COLOR);
+  graphics_context_set_fill_color(ctx, clay_seconds_color);
+  graphics_context_set_stroke_color(ctx, clay_seconds_color);
   graphics_fill_circle(ctx, center, 12);
-  int second_angle = get_angle_for_minute(s_seconds);
-  gpath_rotate_to(s_seconds_arrow, DEG_TO_TRIGANGLE(second_angle)); 
-  gpath_draw_filled(ctx, s_seconds_arrow);
-  gpath_draw_outline(ctx, s_seconds_arrow);
+
+  if (show_seconds) {
+    int second_angle = get_angle_for_minute(s_seconds);
+    gpath_rotate_to(s_seconds_arrow, DEG_TO_TRIGANGLE(second_angle)); 
+    gpath_draw_filled(ctx, s_seconds_arrow);
+    gpath_draw_outline(ctx, s_seconds_arrow);
+  }
 
   graphics_context_set_fill_color(ctx, GColorBlack);
   graphics_fill_rect(ctx, GRect(bounds.size.w / 2 - 1, bounds.size.h / 2 - 1, 3, 3), 0, GCornerNone);
@@ -94,7 +100,7 @@ static void window_load(Window *window) {
     GRect(63, 114, 27, 20),
     GRect(4, 144, 40, 40)));
   text_layer_set_text(s_day_label, s_day_buffer);
-  text_layer_set_background_color(s_day_label, DATE_COLOR_BG);
+  text_layer_set_background_color(s_day_label, clay_bg_color);
   text_layer_set_text_color(s_day_label, DATE_COLOR_FG);
   text_layer_set_font(s_day_label, fonts_get_system_font(FONT_KEY_LECO_20_BOLD_NUMBERS));
 
@@ -104,7 +110,7 @@ static void window_load(Window *window) {
     GRect(90, 114, 27, 20),
     GRect(116, 144, 40, 40)));
   text_layer_set_text(s_num_label, s_num_buffer);
-  text_layer_set_background_color(s_num_label, DAY_COLOR_BG);
+  text_layer_set_background_color(s_num_label, clay_bg_color);
   text_layer_set_text_color(s_num_label, DAY_COLOR_FG);
   text_layer_set_font(s_num_label, fonts_get_system_font(FONT_KEY_LECO_20_BOLD_NUMBERS));
 
@@ -136,7 +142,6 @@ void main_window_push() {
   gpath_move_to(s_hour_arrow, center);
   gpath_move_to(s_seconds_arrow, center);
 
-  window_set_background_color(s_window, BG_COLOR);
   window_set_window_handlers(s_window, (WindowHandlers) {
     .load = window_load,
     .unload = window_unload,
@@ -149,6 +154,18 @@ void main_window_update(int hours, int minutes, int seconds) {
   s_minutes = minutes;
   s_seconds = seconds;
   layer_mark_dirty(s_canvas);
+}
+
+void main_window_apply_settings(ClaySettings settings) {
+
+  clay_bg_color = settings.BackgroundColor;
+  window_set_background_color(s_window, clay_bg_color);
+
+  clay_hours_color = settings.HoursColor;
+  clay_minutes_color = settings.MinutesColor;
+  clay_seconds_color = settings.SecondsColor;
+
+  show_seconds = settings.ShowSeconds;
 }
 
 void date_update(tm *t) {

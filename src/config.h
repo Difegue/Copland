@@ -2,19 +2,29 @@
 
 #include <pebble.h>
 
+#define SETTINGS_KEY 1
+
 #define MINUTES_COLOR PBL_IF_COLOR_ELSE(GColorSunsetOrange, GColorBlack)
 #define HOURS_COLOR PBL_IF_COLOR_ELSE(GColorJaegerGreen, GColorDarkGray)
 #define SECONDS_COLOR PBL_IF_COLOR_ELSE(GColorChromeYellow, GColorDarkGray)
 #define BG_COLOR GColorWhite
 
-#define DAY_COLOR_BG PBL_IF_COLOR_ELSE(GColorWhite, GColorWhite)
 #define DAY_COLOR_FG PBL_IF_COLOR_ELSE(GColorBlueMoon, GColorBlack)
-#define DATE_COLOR_BG PBL_IF_COLOR_ELSE(GColorWhite, GColorWhite)
 #define DATE_COLOR_FG PBL_IF_COLOR_ELSE(GColorBlueMoon, GColorBlack)
 
 #define MINUTES_RADIUS PBL_IF_ROUND_ELSE(60, 60)
 #define HOURS_RADIUS 3
 #define INSET PBL_IF_ROUND_ELSE(5, 3)
+
+// A structure containing our settings
+typedef struct ClaySettings {
+  GColor BackgroundColor;
+  GColor SecondsColor;
+  GColor HoursColor;
+  GColor MinutesColor;
+  bool ShowSeconds;
+  bool ShowDate;
+} __attribute__((__packed__)) ClaySettings;
 
 static const GPathInfo HOUR_HAND_POINTS = {
   3, (GPoint []){
