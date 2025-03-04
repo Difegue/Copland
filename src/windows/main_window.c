@@ -2,7 +2,7 @@
 
 static Window *s_window;
 static Layer *s_canvas, *s_date_layer, *s_bg_layer;
-static TextLayer *s_day_label, *s_num_label;
+static TextLayer *s_day_label;
 static GPath *s_hour_arrow, *s_seconds_arrow;
 static GFont s_font;
 
@@ -10,7 +10,7 @@ static GColor clay_bg_color, clay_hours_color, clay_minutes_color, clay_seconds_
 static bool show_seconds;
 
 static int s_hours, s_minutes, s_seconds;
-static char s_num_buffer[4], s_day_buffer[10];
+static char s_day_buffer[10];
 
 static int32_t get_angle_for_hour(int hour) {
   // Progress through 12 hours, out of 360 degrees
@@ -37,10 +37,9 @@ static void bg_update_proc(Layer *layer, GContext *ctx) {
 
 static void date_update_proc(Layer *layer, GContext *ctx) {
   text_layer_set_text(s_day_label, s_day_buffer);
-  text_layer_set_text(s_num_label, s_num_buffer);
 }
 
-static void layer_update_proc(Layer *layer, GContext *ctx) {
+static void canvas_update_proc(Layer *layer, GContext *ctx) {
   GRect bounds = layer_get_bounds(layer);
 
   // Find the center of the screen
@@ -119,35 +118,23 @@ static void window_load(Window *window) {
   layer_set_update_proc(s_bg_layer, bg_update_proc);
   layer_add_child(window_layer, s_bg_layer);
 
+  // Main hands layer
+  s_canvas = layer_create(bounds);
+  layer_set_update_proc(s_canvas, canvas_update_proc);
+  layer_add_child(window_layer, s_canvas);
+
   // Date layer
   s_date_layer = layer_create(bounds);
   layer_set_update_proc(s_date_layer, date_update_proc);
   layer_add_child(window_layer, s_date_layer);
 
-  s_day_label = text_layer_create(PBL_IF_ROUND_ELSE(
-    GRect(63, 114, 27, 20),
-    GRect(4, 144, 40, 40)));
+  s_day_label = text_layer_create(GRect(48, 100, 90, 40));
   text_layer_set_text(s_day_label, s_day_buffer);
   text_layer_set_background_color(s_day_label, clay_bg_color);
   text_layer_set_text_color(s_day_label, DATE_COLOR_FG);
   text_layer_set_font(s_day_label, s_font);
 
   layer_add_child(s_date_layer, text_layer_get_layer(s_day_label));
-
-  s_num_label = text_layer_create(PBL_IF_ROUND_ELSE(
-    GRect(90, 114, 27, 20),
-    GRect(116, 144, 40, 40)));
-  text_layer_set_text(s_num_label, s_num_buffer);
-  text_layer_set_background_color(s_num_label, clay_bg_color);
-  text_layer_set_text_color(s_num_label, DAY_COLOR_FG);
-  text_layer_set_font(s_num_label, s_font);
-
-  layer_add_child(s_date_layer, text_layer_get_layer(s_num_label));
-
-  // Main hands layer
-  s_canvas = layer_create(bounds);
-  layer_set_update_proc(s_canvas, layer_update_proc);
-  layer_add_child(window_layer, s_canvas);
 }
 
 static void window_unload(Window *window) {
@@ -199,10 +186,19 @@ void main_window_apply_settings(ClaySettings settings) {
   clay_seconds_color = settings.SecondsColor;
 
   show_seconds = settings.ShowSeconds;
+
+  layer_set_hidden((Layer *)s_date_layer, !settings.ShowDate);
 }
 
 void date_update(tm *t) {
-    strftime(s_day_buffer, sizeof(s_day_buffer), "%d/%m", t);
-    strftime(s_num_buffer, sizeof(s_num_buffer), "%m", t);
-    layer_mark_dirty(s_date_layer);
+
+  strftime(s_day_buffer, sizeof(s_day_buffer), "%d/%m", t);
+
+  if (s_hours > 3 && s_hours < 9) {
+    layer_set_frame((Layer *)s_day_label, GRect(48, 35, 90, 40));
+  } else {
+    layer_set_frame((Layer *)s_day_label, GRect(48, 100, 90, 40));
+  }
+
+  layer_mark_dirty(s_date_layer);
 }
