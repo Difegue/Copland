@@ -58,6 +58,20 @@ static void layer_update_proc(Layer *layer, GContext *ctx) {
   gpath_draw_filled(ctx, s_hour_arrow);
   gpath_draw_outline(ctx, s_hour_arrow);
 
+  // Battery level arc
+  BatteryChargeState state = battery_state_service_peek();
+  int32_t angle_end = DEG_TO_TRIGANGLE(state.charge_percent * 3.65);
+  
+  // Draw an arc for the battery level
+  if (state.charge_percent > 60) {
+    graphics_context_set_stroke_color(ctx, HOURS_COLOR);
+  } else if (state.charge_percent > 30) {
+    graphics_context_set_stroke_color(ctx, SECONDS_COLOR);
+  } else {
+    graphics_context_set_stroke_color(ctx, MINUTES_COLOR);
+  }
+  graphics_draw_arc(ctx, bounds, GOvalScaleModeFitCircle, DEG_TO_TRIGANGLE(0), angle_end);
+
   // Adjust geometry variables for hour dots
   GRect frame = grect_inset(bounds, GEdgeInsets(3 * HOURS_RADIUS));
 

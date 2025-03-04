@@ -37,6 +37,7 @@ static void clay_save_settings() {
   main_window_apply_settings(settings);
 
   tick_timer_service_unsubscribe();
+  // If the seconds are shown, subscribe to seconds, otherwise subscribe to minutes
   if (settings.ShowSeconds) {
     tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
   } else {
