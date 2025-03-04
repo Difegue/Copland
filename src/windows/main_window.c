@@ -1,7 +1,7 @@
 #include "main_window.h"
 
 static Window *s_window;
-static Layer *s_canvas, *s_date_layer;
+static Layer *s_canvas, *s_date_layer, *s_bg_layer;
 static TextLayer *s_day_label, *s_num_label;
 static GPath *s_hour_arrow, *s_seconds_arrow;
 static GFont s_font;
@@ -25,6 +25,14 @@ static int32_t get_angle_for_hour_and_minute(int hour, int minute) {
 static int32_t get_angle_for_minute(int minute) {
   // Progress through 60 minutes, out of 360 degrees
   return (minute * 360) / 60;
+}
+
+static void bg_update_proc(Layer *layer, GContext *ctx) {
+  GRect bounds = layer_get_bounds(layer);
+  GPoint center = grect_center_point(&bounds);
+
+  graphics_context_set_fill_color(ctx, clay_bg_color);
+  graphics_fill_circle(ctx, center, 68);
 }
 
 static void date_update_proc(Layer *layer, GContext *ctx) {
@@ -92,6 +100,11 @@ static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
+  // Background circle at center w/ bgcolor
+  s_bg_layer = layer_create(bounds);
+  layer_set_update_proc(s_bg_layer, bg_update_proc);
+  layer_add_child(window_layer, s_bg_layer);
+
   // Date layer
   s_date_layer = layer_create(bounds);
   layer_set_update_proc(s_date_layer, date_update_proc);
@@ -133,6 +146,7 @@ static void window_unload(Window *window) {
 void main_window_push() {
   s_window = window_create();
 
+  window_set_background_color(s_window, GColorBlack);
 
   // Load custom font
   s_font = fonts_load_custom_font(
@@ -165,7 +179,6 @@ void main_window_update(int hours, int minutes, int seconds) {
 void main_window_apply_settings(ClaySettings settings) {
 
   clay_bg_color = settings.BackgroundColor;
-  window_set_background_color(s_window, clay_bg_color);
 
   clay_hours_color = settings.HoursColor;
   clay_minutes_color = settings.MinutesColor;
