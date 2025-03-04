@@ -4,6 +4,7 @@ static Window *s_window;
 static Layer *s_canvas, *s_date_layer;
 static TextLayer *s_day_label, *s_num_label;
 static GPath *s_hour_arrow, *s_seconds_arrow;
+static GFont s_font;
 
 static GColor clay_bg_color, clay_hours_color, clay_minutes_color, clay_seconds_color;
 static bool show_seconds;
@@ -102,7 +103,7 @@ static void window_load(Window *window) {
   text_layer_set_text(s_day_label, s_day_buffer);
   text_layer_set_background_color(s_day_label, clay_bg_color);
   text_layer_set_text_color(s_day_label, DATE_COLOR_FG);
-  text_layer_set_font(s_day_label, fonts_get_system_font(FONT_KEY_LECO_20_BOLD_NUMBERS));
+  text_layer_set_font(s_day_label, s_font);
 
   layer_add_child(s_date_layer, text_layer_get_layer(s_day_label));
 
@@ -112,7 +113,7 @@ static void window_load(Window *window) {
   text_layer_set_text(s_num_label, s_num_buffer);
   text_layer_set_background_color(s_num_label, clay_bg_color);
   text_layer_set_text_color(s_num_label, DAY_COLOR_FG);
-  text_layer_set_font(s_num_label, fonts_get_system_font(FONT_KEY_LECO_20_BOLD_NUMBERS));
+  text_layer_set_font(s_num_label, s_font);
 
   layer_add_child(s_date_layer, text_layer_get_layer(s_num_label));
 
@@ -131,6 +132,11 @@ static void window_unload(Window *window) {
 
 void main_window_push() {
   s_window = window_create();
+
+
+  // Load custom font
+  s_font = fonts_load_custom_font(
+    resource_get_handle(RESOURCE_ID_APPLE_GARAMOND_24));
 
   // init hand paths
   s_hour_arrow = gpath_create(&HOUR_HAND_POINTS);
@@ -169,7 +175,7 @@ void main_window_apply_settings(ClaySettings settings) {
 }
 
 void date_update(tm *t) {
-    strftime(s_day_buffer, sizeof(s_day_buffer), "%d", t);
+    strftime(s_day_buffer, sizeof(s_day_buffer), "%d/%m", t);
     strftime(s_num_buffer, sizeof(s_num_buffer), "%m", t);
     layer_mark_dirty(s_date_layer);
 }

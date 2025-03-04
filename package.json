@@ -30,7 +30,13 @@
       "onlyShownOnCommunication": false
     },
     "resources": {
-      "media": []
+      "media": [
+        {
+          "type": "font",
+          "name": "APPLE_GARAMOND_24",
+          "file": "AppleGaramond-Bold.ttf"
+        }
+      ]
     },
     "messageKeys": [
       "showSeconds",
