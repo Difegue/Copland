@@ -62,5 +62,10 @@
     {
         "type": "submit",
         "defaultValue": "Save"
+    },
+    {
+        "type": "button",
+        "id": "resetDefaults",
+        "defaultValue": "Reset to defaults"
     }
 ]
