@@ -9,7 +9,6 @@
 #define SECONDS_COLOR PBL_IF_COLOR_ELSE(GColorChromeYellow, GColorDarkGray)
 #define BG_COLOR GColorWhite
 
-#define DAY_COLOR_FG PBL_IF_COLOR_ELSE(GColorBlueMoon, GColorBlack)
 #define DATE_COLOR_FG PBL_IF_COLOR_ELSE(GColorBlueMoon, GColorBlack)
 
 #define MINUTES_RADIUS PBL_IF_ROUND_ELSE(60, 60)
@@ -22,6 +21,7 @@ typedef struct ClaySettings {
   GColor SecondsColor;
   GColor HoursColor;
   GColor MinutesColor;
+  GColor DateColor;
   bool ShowSeconds;
   bool ShowDate;
 } __attribute__((__packed__)) ClaySettings;

@@ -49,6 +49,13 @@
                 "defaultValue": "FFAA00",
                 "label": "Seconds Color",
                 "sunlight": false
+            },
+            {
+                "type": "color",
+                "messageKey": "dateColor",
+                "defaultValue": "0055FF",
+                "label": "Date Color",
+                "sunlight": false
             }
         ]
     },

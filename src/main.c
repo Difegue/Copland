@@ -12,6 +12,7 @@ static void default_settings() {
   settings.SecondsColor = SECONDS_COLOR;
   settings.HoursColor = HOURS_COLOR;
   settings.MinutesColor = MINUTES_COLOR;
+  settings.DateColor = DATE_COLOR_FG;
   settings.ShowSeconds = true;
   settings.ShowDate = true;
 }
@@ -69,6 +70,12 @@ static void clay_inbox_received_handler(DictionaryIterator *iter, void *context)
   Tuple *minutes_color_t = dict_find(iter, MESSAGE_KEY_minutesColor);
   if (minutes_color_t) {
     settings.MinutesColor = GColorFromHEX(minutes_color_t->value->int32);
+  }
+
+  // Date Color
+  Tuple *date_color_t = dict_find(iter, MESSAGE_KEY_dateColor);
+  if (date_color_t) {
+    settings.DateColor = GColorFromHEX(date_color_t->value->int32);
   }
 
   // Second Tick

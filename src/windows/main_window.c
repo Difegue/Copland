@@ -6,7 +6,7 @@ static TextLayer *s_day_label;
 static GPath *s_hour_arrow, *s_seconds_arrow;
 static GFont s_font;
 
-static GColor clay_bg_color, clay_hours_color, clay_minutes_color, clay_seconds_color;
+static GColor clay_bg_color, clay_hours_color, clay_minutes_color, clay_seconds_color, clay_date_color;
 static bool show_seconds;
 
 static int s_hours, s_minutes, s_seconds;
@@ -131,7 +131,7 @@ static void window_load(Window *window) {
   s_day_label = text_layer_create(GRect(48, 100, 90, 40));
   text_layer_set_text(s_day_label, s_day_buffer);
   text_layer_set_background_color(s_day_label, clay_bg_color);
-  text_layer_set_text_color(s_day_label, DATE_COLOR_FG);
+  text_layer_set_text_color(s_day_label, clay_date_color);
   text_layer_set_font(s_day_label, s_font);
 
   layer_add_child(s_date_layer, text_layer_get_layer(s_day_label));
@@ -180,7 +180,7 @@ void main_window_update(int hours, int minutes, int seconds) {
 void main_window_apply_settings(ClaySettings settings) {
 
   clay_bg_color = settings.BackgroundColor;
-
+  clay_date_color = settings.DateColor;
   clay_hours_color = settings.HoursColor;
   clay_minutes_color = settings.MinutesColor;
   clay_seconds_color = settings.SecondsColor;
@@ -188,6 +188,7 @@ void main_window_apply_settings(ClaySettings settings) {
   show_seconds = settings.ShowSeconds;
 
   layer_set_hidden((Layer *)s_date_layer, !settings.ShowDate);
+  text_layer_set_text_color(s_day_label, clay_date_color);
 }
 
 void date_update(tm *t) {

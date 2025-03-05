@@ -44,7 +44,8 @@
       "bgColor",
       "secondsColor",
       "minutesColor",
-      "hoursColor"
+      "hoursColor",
+      "dateColor"
     ]
   }
 }
