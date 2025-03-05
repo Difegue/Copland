@@ -1,7 +1,7 @@
 {
   "name": "Copland",
   "author": "TVC-16",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "keywords": [
     "pebble-app"
@@ -35,6 +35,12 @@
           "type": "font",
           "name": "APPLE_GARAMOND_24",
           "file": "AppleGaramond-Bold.ttf"
+        },
+        {
+          "menuIcon": true,
+          "type": "png",
+          "name": "IMAGE_MENU_ICON",
+          "file": "icon.png"
         }
       ]
     },
