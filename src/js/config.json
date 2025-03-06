@@ -1,14 +1,18 @@
 [
     {
+        "type": "heading",
+        "defaultValue": "Copland"
+    },
+    {
+        "type": "text",
+        "defaultValue": "In 2008, PC World included Copland on a list of the biggest project failures in information technology history."
+    },
+    {
         "type": "section",
         "items": [
             {
                 "type": "heading",
-                "defaultValue": "Copland"
-            },
-            {
-                "type": "text",
-                "defaultValue": "In 2008, PC World included Copland on a list of the biggest project failures in information technology history."
+                "defaultValue": "Watchface settings"
             },
             {
                 "type": "toggle",
@@ -23,9 +27,25 @@
                 "defaultValue": true
             },
             {
+                "type": "toggle",
+                "messageKey": "removeBorder",
+                "label": "Remove black border around watchface",
+                "defaultValue": false
+            }
+        ]
+    },
+    {
+        "type": "section",
+        "items": [
+            {
+                "type": "heading",
+                "defaultValue": "Colors"
+            },
+            {
                 "type": "color",
                 "messageKey": "bgColor",
                 "defaultValue": "FFFFFF",
+                "allowGray": true,
                 "label": "Background Color",
                 "sunlight": true
             },
@@ -33,6 +53,7 @@
                 "type": "color",
                 "messageKey": "hoursColor",
                 "defaultValue": "00AA55",
+                "allowGray": true,
                 "label": "Hours Color",
                 "sunlight": false
             },
@@ -40,6 +61,7 @@
                 "type": "color",
                 "messageKey": "minutesColor",
                 "defaultValue": "FF5555",
+                "allowGray": true,
                 "label": "Minutes Color",
                 "sunlight": false
             },
@@ -47,6 +69,7 @@
                 "type": "color",
                 "messageKey": "secondsColor",
                 "defaultValue": "FFAA00",
+                "allowGray": true,
                 "label": "Seconds Color",
                 "sunlight": false
             },

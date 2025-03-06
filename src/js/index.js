@@ -12,6 +12,7 @@ var clay = new Clay(clayConfig, function(minified) {
     function resetSettings() {
         clayConfig.getItemByMessageKey('showDate').set(true);
         clayConfig.getItemByMessageKey('showSeconds').set(true);
+        clayConfig.getItemByMessageKey('removeBorder').set(false);
       
         clayConfig.getItemByMessageKey('bgColor').set('FFFFFF');
         clayConfig.getItemByMessageKey('hoursColor').set('00AA55');

@@ -90,6 +90,11 @@ static void clay_inbox_received_handler(DictionaryIterator *iter, void *context)
     settings.ShowDate = date_t->value->int32 == 1;
   }
 
+  // Remove Border
+  Tuple *remove_border_t = dict_find(iter, MESSAGE_KEY_removeBorder);
+  if (remove_border_t) {
+    settings.RemoveBorder = remove_border_t->value->int32 == 1;
+  }
   // Save the new settings to persistent storage
   clay_save_settings();
 }

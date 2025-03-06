@@ -24,6 +24,7 @@ typedef struct ClaySettings {
   GColor DateColor;
   bool ShowSeconds;
   bool ShowDate;
+  bool RemoveBorder;
 } __attribute__((__packed__)) ClaySettings;
 
 static const GPathInfo HOUR_HAND_POINTS = {

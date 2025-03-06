@@ -189,6 +189,11 @@ void main_window_apply_settings(ClaySettings settings) {
 
   layer_set_hidden((Layer *)s_date_layer, !settings.ShowDate);
   text_layer_set_text_color(s_day_label, clay_date_color);
+  if (settings.RemoveBorder) {
+    window_set_background_color(s_window, clay_bg_color);
+  } else {
+    window_set_background_color(s_window, GColorBlack);
+  }
 }
 
 void date_update(tm *t) {
