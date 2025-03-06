@@ -15,6 +15,9 @@
 #define BATTERY_INSET PBL_IF_ROUND_ELSE(7, 0)
 #define MINUTES_INSET PBL_IF_ROUND_ELSE(20, 12)
 
+#define DATE_LOWER_POS PBL_IF_ROUND_ELSE(GRect(65, 115, 90, 40),GRect(48, 100, 90, 40))
+#define DATE_UPPER_POS PBL_IF_ROUND_ELSE(GRect(65, 35, 90, 40),GRect(48, 35, 90, 40))
+
 // A structure containing our settings
 typedef struct ClaySettings {
   GColor BackgroundColor;
@@ -24,6 +27,7 @@ typedef struct ClaySettings {
   GColor DateColor;
   bool ShowSeconds;
   bool ShowDate;
+  bool DateInCorner;
   bool RemoveBorder;
 } __attribute__((__packed__)) ClaySettings;
 

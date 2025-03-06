@@ -7,7 +7,7 @@ static GPath *s_hour_arrow, *s_seconds_arrow;
 static GFont s_font;
 
 static GColor clay_bg_color, clay_hours_color, clay_minutes_color, clay_seconds_color, clay_date_color;
-static bool show_seconds;
+static bool show_seconds, corner_date;
 
 static int s_hours, s_minutes, s_seconds;
 static char s_day_buffer[10];
@@ -130,7 +130,7 @@ static void window_load(Window *window) {
   layer_set_update_proc(s_date_layer, date_update_proc);
   layer_add_child(window_layer, s_date_layer);
 
-  s_day_label = text_layer_create(GRect(48, 100, 90, 40));
+  s_day_label = text_layer_create(DATE_LOWER_POS);
   text_layer_set_text(s_day_label, s_day_buffer);
   text_layer_set_background_color(s_day_label, clay_bg_color);
   text_layer_set_text_color(s_day_label, clay_date_color);
@@ -177,6 +177,15 @@ void main_window_update(int hours, int minutes, int seconds) {
   s_minutes = minutes;
   s_seconds = seconds;
   layer_mark_dirty(s_canvas);
+
+  if (corner_date) {
+    layer_set_frame((Layer *)s_day_label, GRect(0, 141, 90, 40)); // Rect displays only
+  } else if (s_hours > 3 && s_hours < 9) {
+    layer_set_frame((Layer *)s_day_label, DATE_UPPER_POS); 
+  } else {
+    layer_set_frame((Layer *)s_day_label, DATE_LOWER_POS);
+  }
+  layer_mark_dirty(s_date_layer);
 }
 
 void main_window_apply_settings(ClaySettings settings) {
@@ -188,6 +197,7 @@ void main_window_apply_settings(ClaySettings settings) {
   clay_seconds_color = settings.SecondsColor;
 
   show_seconds = settings.ShowSeconds;
+  corner_date = settings.DateInCorner;
 
   layer_set_hidden((Layer *)s_date_layer, !settings.ShowDate);
   text_layer_set_text_color(s_day_label, clay_date_color);
@@ -202,12 +212,5 @@ void main_window_apply_settings(ClaySettings settings) {
 void date_update(tm *t) {
 
   strftime(s_day_buffer, sizeof(s_day_buffer), "%d/%m", t);
-
-  if (s_hours > 3 && s_hours < 9) {
-    layer_set_frame((Layer *)s_day_label, GRect(48, 35, 90, 40));
-  } else {
-    layer_set_frame((Layer *)s_day_label, GRect(48, 100, 90, 40));
-  }
-
   layer_mark_dirty(s_date_layer);
 }

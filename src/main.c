@@ -95,6 +95,13 @@ static void clay_inbox_received_handler(DictionaryIterator *iter, void *context)
   if (remove_border_t) {
     settings.RemoveBorder = remove_border_t->value->int32 == 1;
   }
+
+  // Date in Corner
+  Tuple *date_in_corner_t = dict_find(iter, MESSAGE_KEY_corneredDate);
+  if (date_in_corner_t) {
+    settings.DateInCorner = date_in_corner_t->value->int32 == 1;
+  }
+
   // Save the new settings to persistent storage
   clay_save_settings();
 }

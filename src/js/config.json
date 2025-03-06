@@ -22,6 +22,15 @@
             },
             {
                 "type": "toggle",
+                "messageKey": "corneredDate",
+                "capabilities": [
+                    "RECT"
+                ],
+                "label": "Move date to corner",
+                "defaultValue": false
+            },
+            {
+                "type": "toggle",
                 "messageKey": "showSeconds",
                 "label": "Show seconds hand (bad for battery!)",
                 "defaultValue": true

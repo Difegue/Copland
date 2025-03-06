@@ -15,7 +15,8 @@
       "aplite",
       "basalt",
       "chalk",
-      "diorite"
+      "diorite",
+      "emery"
     ],
     "enableMultiJS": true,
     "capabilities": [
@@ -47,6 +48,8 @@
     "messageKeys": [
       "showSeconds",
       "showDate",
+      "corneredDate",
+      "removeBorder",
       "bgColor",
       "secondsColor",
       "minutesColor",
