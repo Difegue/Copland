@@ -11,9 +11,9 @@
 
 #define DATE_COLOR_FG PBL_IF_COLOR_ELSE(GColorBlueMoon, GColorBlack)
 
-#define MINUTES_RADIUS PBL_IF_ROUND_ELSE(60, 60)
-#define HOURS_RADIUS 3
-#define INSET PBL_IF_ROUND_ELSE(5, 3)
+#define DOTS_INSET PBL_IF_ROUND_ELSE(18, 9)
+#define BATTERY_INSET PBL_IF_ROUND_ELSE(7, 0)
+#define MINUTES_INSET PBL_IF_ROUND_ELSE(20, 12)
 
 // A structure containing our settings
 typedef struct ClaySettings {

@@ -32,7 +32,7 @@ static void bg_update_proc(Layer *layer, GContext *ctx) {
   GPoint center = grect_center_point(&bounds);
 
   graphics_context_set_fill_color(ctx, clay_bg_color);
-  graphics_fill_circle(ctx, center, 68);
+  graphics_fill_circle(ctx, center, PBL_IF_ROUND_ELSE(78, 68));
 }
 
 static void date_update_proc(Layer *layer, GContext *ctx) {
@@ -69,10 +69,12 @@ static void canvas_update_proc(Layer *layer, GContext *ctx) {
   } else {
     graphics_context_set_stroke_color(ctx, MINUTES_COLOR);
   }
-  graphics_draw_arc(ctx, bounds, GOvalScaleModeFitCircle, DEG_TO_TRIGANGLE(0), angle_end);
 
-  // Adjust geometry variables for hour dots
-  GRect frame = grect_inset(bounds, GEdgeInsets(3 * HOURS_RADIUS));
+  // Adjust geometry variables for battery arc
+  GRect frame = grect_inset(bounds, GEdgeInsets(BATTERY_INSET));
+  graphics_draw_arc(ctx, frame, GOvalScaleModeFitCircle, DEG_TO_TRIGANGLE(0), angle_end);
+
+  frame = grect_inset(bounds, GEdgeInsets(DOTS_INSET));
 
   // Draw dots for 0, 3, 6 and 9
   int hours[] = {0, 3, 6, 9};
@@ -85,7 +87,7 @@ static void canvas_update_proc(Layer *layer, GContext *ctx) {
   }
 
   // Minutes 
-  frame = grect_inset(bounds, GEdgeInsets(4 * INSET));
+  frame = grect_inset(bounds, GEdgeInsets(MINUTES_INSET));
   graphics_context_set_stroke_width(ctx, 10);
   graphics_context_set_stroke_color(ctx, clay_minutes_color);
   int minute_angle = get_angle_for_minute(s_minutes);
@@ -189,6 +191,7 @@ void main_window_apply_settings(ClaySettings settings) {
 
   layer_set_hidden((Layer *)s_date_layer, !settings.ShowDate);
   text_layer_set_text_color(s_day_label, clay_date_color);
+
   if (settings.RemoveBorder) {
     window_set_background_color(s_window, clay_bg_color);
   } else {
