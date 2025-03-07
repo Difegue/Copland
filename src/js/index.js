@@ -13,13 +13,15 @@ var clay = new Clay(clayConfig, function(minified) {
         clayConfig.getItemByMessageKey('showDate').set(true);
         clayConfig.getItemByMessageKey('showSeconds').set(true);
         clayConfig.getItemByMessageKey('removeBorder').set(false);
-        clayConfig.getItemByMessageKey('corneredDate').set(false);
       
         clayConfig.getItemByMessageKey('bgColor').set('FFFFFF');
         clayConfig.getItemByMessageKey('hoursColor').set('00AA55');
         clayConfig.getItemByMessageKey('minutesColor').set('FF5555');
         clayConfig.getItemByMessageKey('secondsColor').set('FFAA00');
         clayConfig.getItemByMessageKey('dateColor').set('0055FF');
+
+        // Put this last as it doesn't work on PTRs
+        clayConfig.getItemByMessageKey('corneredDate').set(false);
     }
 
     function colorPreset1() {
