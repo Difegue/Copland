@@ -92,6 +92,34 @@
         ]
     },
     {
+        "type": "section",
+        "items": [
+            {
+                "type": "heading",
+                "defaultValue": "Color Presets"
+            },
+            {
+                "type": "text",
+                "defaultValue": "Don't want to think about colors? Click the buttons below to apply some premade combos."
+            },
+            {
+                "type": "button",
+                "id": "preset1",
+                "defaultValue": "Melonberry Martini"
+            },
+            {
+                "type": "button",
+                "id": "preset2",
+                "defaultValue": "Bezeled Breeze"
+            },
+            {
+                "type": "button",
+                "id": "preset3",
+                "defaultValue": "Lost in Leisure"
+            }
+        ]
+    },
+    {
         "type": "submit",
         "defaultValue": "Save"
     },
